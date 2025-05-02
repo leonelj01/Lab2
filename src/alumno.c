@@ -35,61 +35,76 @@ SPDX-License-Identifier: MIT
 /* === Private function declarations =============================================================================== */
 
 /**
- * @brief 
- * 
- * @param campo 
- * @param valor 
- * @param buffer 
- * @param size 
- * @return int 
+ * @brief Serializa un par de variables del tipo caracter en formato JSON.
+ *
+ *
+ * @param campo Cadena de caracteres que representa al campo de la estructura.
+ * @param valor Cadena de caracteres asociada al campo.
+ * @param buffer Buffer donde se escribe la cadena serializada.
+ * @param size Tamaño máximo del buffer.
+ *
+ * @return Número de caracteres escritos (sin incluir el carácter nulo de fin de cadena),
+ *         o un valor negativo si ocurre un error.
  */
-static int SerializarCadena(char campo[],const char valor[], char buffer[], uint32_t size);
+static int SerializarCadena(char campo[], const char valor[], char buffer[], uint32_t size);
 
 /**
- * @brief 
- * 
- * @param campo 
- * @param valor 
- * @param buffer 
- * @param size 
- * @return int 
+ * @brief Serializa un campo con un valor numérico sin signo en formato JSON.
+ *
+ *
+ * @param campo Cadena de caracteres que representa el nombre del campo.
+ * @param valor Valor numérico sin signo de 32 bits a serializar.
+ * @param buffer Buffer donde se escribe la cadena serializada.
+ * @param size Tamaño máximo del buffer.
+ *
+ * @return Número de caracteres escritos (sin incluir el carácter nulo de fin de cadena),
+ *         o un valor negativo si ocurre un error.
  */
-
-static int SerializarNumero(char campo[], int valor[], char buffer[], uint32_t size);
+static int SerializarNumero(char campo[], uint32_t valor, char buffer[], uint32_t size);
 
 /* === Private variable definitions ================================================================================ */
 
-int SerializarCadena(char campo[],const char valor[], char buffer[], uint32_t size){
+int SerializarCadena(char campo[], const char valor[], char buffer[], uint32_t size) {
     return snprintf(buffer, size, "\"%s\":\"%s\",", campo, valor);
 }
 
-int SerializarNumero(char campo[], int valor[], char buffer[], uint32_t size){
-    return snprintf(buffer, size, "\"%s\":\"%i\",", campo, valor);
+int SerializarNumero(char campo[], uint32_t valor, char buffer[], uint32_t size) {
+    return snprintf(buffer, size, "\"%s\":\"%u\"}", campo, valor);
 }
 
 /* === Public variable definitions ================================================================================= */
 
 /* === Private function definitions ================================================================================ */
 
-int Serializar(const alumno_t alumno, char *buffer, uint32_t size){
+int Serializar(const alumno_t alumno, char * buffer, uint32_t size) {
     int escritos;
     int resultado;
-    
+
     buffer[0] = '{';
     buffer++;
     escritos = 1;
 
     resultado = SerializarCadena("nombre", alumno->nombre, buffer, size - escritos);
 
-    if (resultado < 0) return -1;
+    if (resultado < 0 || resultado >= size - escritos) {
+        return -1;
+    }
 
     buffer = buffer + resultado;
     escritos += resultado;
 
-    escritos += SerializarCadena("apellido", alumno->apellido, buffer, size - escritos);
+    resultado = SerializarCadena("apellido", alumno->apellido, buffer, size - escritos);
 
-    return escritos;
+    if (resultado < 0 || resultado >= size - escritos) {
+        return -1;
+    }
 
+    buffer = buffer + resultado;
+    escritos += resultado;
+
+    resultado = SerializarNumero("documento", alumno->documento, buffer, size - escritos);
+
+    return resultado < 0 ? -1 : escritos + resultado;
 }
 
 /* === Public function implementation ============================================================================== */

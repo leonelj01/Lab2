@@ -44,21 +44,21 @@ typedef struct alumno_s {
     char nombre[20];    //!< Nombre del alumno
     char apellido[20];  //!< Apellido del alumno
     uint32_t documento; //!< Documento del alumno
-}const *alumno_t;
+} const * alumno_t;
 
 /* === Public variable declarations ================================================================================ */
 
 /* === Public function declarations ================================================================================ */
 /**
  * @brief Función para serializar los datos de un alumno
- * 
+ *
  * @param alumno Puntero a la estructura con los datos del alumno
  * @param buffer Cadena de caracteres donde se guardarán los datos serializados
  * @param size Espacio disponible en la cadena de caracteres
  * @retval la cantidad de caracteres escritos en la cadena
  * @retval -1 si no se pudo serializar el alumno
  */
-int Serializar(alumno_t alumno, char *buffer, uint32_t size);
+int Serializar(alumno_t alumno, char * buffer, uint32_t size);
 
 /* === End of conditional blocks =================================================================================== */
 
