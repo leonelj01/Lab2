@@ -4,6 +4,7 @@ INC_DIR = ./inc
 OUT_DIR = ./build
 OBJ_DIR = $(OUT_DIR)/obj
 BIN_DIR = $(OUT_DIR)/bin
+DOC_DIR = $(OUT_DIR)/doc
 
 SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
@@ -32,3 +33,13 @@ info:
 	@echo "Output Directory: $(OUT_DIR)"
 	@echo "Object Files: $(OBJ_FILES)"
 	@echo "Binary File: $(BIN_DIR)/app.out"
+
+exe:
+	@echo "Running the program..."
+	@mkdir -p $(BIN_DIR)
+	@$(BIN_DIR)/app.out
+
+doc:
+	@echo "Generating documentation..."
+	@mkdir -p $(DOC_DIR)
+	@doxygen Doxyfile
