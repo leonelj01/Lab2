@@ -27,10 +27,18 @@ SPDX-License-Identifier: MIT
 
 #include "alumno.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 /* === Macros definitions ========================================================================================== */
 
 /* === Private data type declarations ============================================================================== */
+
+struct alumno_s {
+    char     nombre[50];    //!< Nombre del alumno
+    char     apellido[50];  //!< Apellido del alumno
+    uint32_t documento;     //!< Número de documento del alumno
+};
 
 /* === Private function declarations =============================================================================== */
 
@@ -76,7 +84,18 @@ int SerializarNumero(char campo[], uint32_t valor, char buffer[], uint32_t size)
 
 /* === Private function definitions ================================================================================ */
 
-int Serializar(const alumno_t alumno, char * buffer, uint32_t size) {
+alumno_t AlumnoCrear(char * nombre, char * apellido, uint32_t documento){
+    alumno_t self = malloc(sizeof(struct alumno_s));
+    if (self != NULL) {
+        strncpy(self->nombre, nombre, sizeof(self->nombre));
+        strncpy(self->apellido, apellido, sizeof(self->apellido));
+        self->documento = documento;
+    }
+
+    return self;
+}
+
+int AlumnoSerializar(alumno_t self, char * buffer, uint32_t size) {
     int escritos;
     int resultado;
 
@@ -84,7 +103,7 @@ int Serializar(const alumno_t alumno, char * buffer, uint32_t size) {
     buffer++;
     escritos = 1;
 
-    resultado = SerializarCadena("nombre", alumno->nombre, buffer, size - escritos);
+    resultado = SerializarCadena("nombre", self->nombre, buffer, size - escritos);
 
     if (resultado < 0 || resultado >= size - escritos) {
         return -1;
@@ -93,7 +112,7 @@ int Serializar(const alumno_t alumno, char * buffer, uint32_t size) {
     buffer = buffer + resultado;
     escritos += resultado;
 
-    resultado = SerializarCadena("apellido", alumno->apellido, buffer, size - escritos);
+    resultado = SerializarCadena("apellido", self->apellido, buffer, size - escritos);
 
     if (resultado < 0 || resultado >= size - escritos) {
         return -1;
@@ -102,7 +121,7 @@ int Serializar(const alumno_t alumno, char * buffer, uint32_t size) {
     buffer = buffer + resultado;
     escritos += resultado;
 
-    resultado = SerializarNumero("documento", alumno->documento, buffer, size - escritos);
+    resultado = SerializarNumero("documento", self->documento, buffer, size - escritos);
 
     return resultado < 0 ? -1 : escritos + resultado;
 }
