@@ -45,9 +45,18 @@ int main(void) {
     char buffer[100];
     int resultado;
     
-    alumno_t YO = AlumnoCrear("Leonel", "Juarez", 12345678);
+    alumno_t Leonel = AlumnoCrear("Leonel", "Juarez", 12345678);
+    alumno_t Juan = AlumnoCrear("Juan", "Gonzalez", 87654321);
 
-    resultado = AlumnoSerializar(YO, buffer, sizeof(buffer));
+    resultado = AlumnoSerializar(Leonel, buffer, sizeof(buffer));
+
+    if (resultado > 0) {
+        printf("Serializado: %s\n", buffer);
+    } else {
+        printf("Error al serializar\n");
+    }
+
+    resultado = AlumnoSerializar(Juan, buffer, sizeof(buffer));
 
     if (resultado > 0) {
         printf("Serializado: %s\n", buffer);
