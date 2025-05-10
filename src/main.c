@@ -44,9 +44,8 @@ SPDX-License-Identifier: MIT
 int main(void) {
     char buffer[100];
     int resultado;
-    
-    alumno_t Leonel = AlumnoCrear("Leonel", "Juarez", 12345678);
-    alumno_t Juan = AlumnoCrear("Juan", "Gonzalez", 87654321);
+
+    alumnoT Leonel = AlumnoCrear("Leonel", "Juarez", 12345678);
 
     resultado = AlumnoSerializar(Leonel, buffer, sizeof(buffer));
 
@@ -55,6 +54,8 @@ int main(void) {
     } else {
         printf("Error al serializar\n");
     }
+
+    alumnoT Juan = AlumnoCrear("Juan", "Gonzalez", 87654321);
 
     resultado = AlumnoSerializar(Juan, buffer, sizeof(buffer));
 

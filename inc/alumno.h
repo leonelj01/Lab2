@@ -40,7 +40,7 @@ extern "C" {
 
 /* === Public data type declarations =============================================================================== */
 //! Puntero que representa un alumno
-typedef struct alumno_s * alumno_t;
+typedef struct alumnoS * alumnoT;
 
 /* === Public variable declarations ================================================================================ */
 
@@ -48,13 +48,13 @@ typedef struct alumno_s * alumno_t;
 
 /**
  * @brief Función para crear un nuevo alumno
- * 
- * @param nombre    Nombre del alumno 
+ *
+ * @param nombre    Nombre del alumno
  * @param apellido  Apellido del alumno
  * @param documento Número de documento del alumno
- * @return alumno_t Referencia al nuevo alumno creado
+ * @return alumnoT Referencia al nuevo alumno creado
  */
-alumno_t AlumnoCrear(char * nombre, char * apellido, uint32_t documento);
+alumnoT AlumnoCrear(char * nombre, char * apellido, uint32_t documento);
 
 /**
  * @brief Función para serializar los datos de un alumno
@@ -65,7 +65,7 @@ alumno_t AlumnoCrear(char * nombre, char * apellido, uint32_t documento);
  * @retval la cantidad de caracteres escritos en la cadena
  * @retval -1 si no se pudo serializar el alumno
  */
-int AlumnoSerializar(alumno_t alumno, char * buffer, uint32_t size);
+int AlumnoSerializar(alumnoT alumno, char * buffer, uint32_t size);
 
 /* === End of conditional blocks =================================================================================== */
 
