@@ -65,7 +65,7 @@ alumnoT AlumnoCrear(char * nombre, char * apellido, uint32_t documento);
  * @retval la cantidad de caracteres escritos en la cadena
  * @retval -1 si no se pudo serializar el alumno
  */
-int AlumnoSerializar(alumnoT alumno, char * buffer, uint32_t size);
+int AlumnoSerializar(alumnoT alumno, char * buffer, int size);
 
 /* === End of conditional blocks =================================================================================== */
 

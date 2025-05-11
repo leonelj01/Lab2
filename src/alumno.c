@@ -58,8 +58,9 @@ struct alumnoS {
  *
  * @return Puntero a la nueva instancia de alumno_s, o NULL si no hay espacio disponible.
  */
+#ifdef USAR_MEMORIA_ESTATICA
 static alumnoT CrearInstancia(void);
-
+#endif
 /**
  * @brief Serializa un par de variables del tipo caracter en formato JSON.
  *
@@ -72,7 +73,7 @@ static alumnoT CrearInstancia(void);
  * @return Número de caracteres escritos (sin incluir el carácter nulo de fin de cadena),
  *         o un valor negativo si ocurre un error.
  */
-static int SerializarCadena(char campo[], const char valor[], char buffer[], uint32_t size);
+static int SerializarCadena(char campo[], const char valor[], char buffer[], int size);
 
 /**
  * @brief Serializa un campo con un valor numérico sin signo en formato JSON.
@@ -86,7 +87,7 @@ static int SerializarCadena(char campo[], const char valor[], char buffer[], uin
  * @return Número de caracteres escritos (sin incluir el carácter nulo de fin de cadena),
  *         o un valor negativo si ocurre un error.
  */
-static int SerializarNumero(char campo[], uint32_t valor, char buffer[], uint32_t size);
+static int SerializarNumero(char campo[], uint32_t valor, char buffer[], int size);
 
 /* === Private variable definitions ================================================================================ */
 
@@ -114,11 +115,11 @@ static alumnoT CrearInstancia(void) {
 }
 #endif
 
-int SerializarCadena(char campo[], const char valor[], char buffer[], uint32_t size) {
+int SerializarCadena(char campo[], const char valor[], char buffer[], int size) {
     return snprintf(buffer, size, "\"%s\":\"%s\",", campo, valor);
 }
 
-int SerializarNumero(char campo[], uint32_t valor, char buffer[], uint32_t size) {
+int SerializarNumero(char campo[], uint32_t valor, char buffer[], int size) {
     return snprintf(buffer, size, "\"%s\":\"%u\"}", campo, valor);
 }
 
@@ -141,7 +142,7 @@ alumnoT AlumnoCrear(char * nombre, char * apellido, uint32_t documento) {
     return self;
 }
 
-int AlumnoSerializar(alumnoT self, char * buffer, uint32_t size) {
+int AlumnoSerializar(alumnoT self, char * buffer, int size) {
 
     if(self == NULL) return -1;
 
