@@ -173,7 +173,7 @@ int AlumnoSerializar(alumnoT self, char * buffer, int size) {
 
     resultado = SerializarNumero("documento", self->documento, buffer, size - escritos);
 
-    return resultado < 0 ? -1 : escritos + resultado;
+    return (resultado < 0 || escritos + resultado >= size) ? -1 : escritos + resultado;
 }
 
 /* === End of documentation ======================================================================================== */
