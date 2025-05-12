@@ -104,7 +104,7 @@ int Serializar(const alumno_t alumno, char * buffer, uint32_t size) {
 
     resultado = SerializarNumero("documento", alumno->documento, buffer, size - escritos);
 
-    return resultado < 0 ? -1 : escritos + resultado;
+    return (resultado < 0 || escritos + resultado >= size) ? -1 : escritos + resultado;
 }
 
 /* === Public function implementation ============================================================================== */
