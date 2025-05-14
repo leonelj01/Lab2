@@ -115,11 +115,11 @@ static alumnoT CrearInstancia(void) {
 }
 #endif
 
-int SerializarCadena(char campo[], const char valor[], char buffer[], int size) {
+static int SerializarCadena(char campo[], const char valor[], char buffer[], int size) {
     return snprintf(buffer, size, "\"%s\":\"%s\",", campo, valor);
 }
 
-int SerializarNumero(char campo[], uint32_t valor, char buffer[], int size) {
+static int SerializarNumero(char campo[], uint32_t valor, char buffer[], int size) {
     return snprintf(buffer, size, "\"%s\":\"%u\"}", campo, valor);
 }
 
