@@ -21,8 +21,8 @@ SPDX-License-Identifier: MIT
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-/** @file plantilla.h
- ** @brief Plantilla para la creación de archivos de de cabeceras en lenguaje C
+/** @file config.h
+ ** @brief Archivo de configuración para el proyecto
  **/
 
 /* === Headers files inclusions ==================================================================================== */
@@ -38,9 +38,12 @@ extern "C" {
 /**
  * @brief Seleccion del tipo de memoria a utilizar
  * 
+ * Permite decidir si se desea usar memoria dinamica o estatica, al cambiar el valor de TIPO_MEMORIA.abort
+ * Una vez cambiado el valor, el programa utiliza las funciones necesarias para la correcta implementacion del tipo de memoria elegida. 
+ * 
  * 0: Memoria estatica, 1: Memoria dinamica
  */
-#define TIPO_MEMORIA 1
+#define TIPO_MEMORIA 0
 
 // Definición de macros según el tipo de memoria
 #if TIPO_MEMORIA == 0
@@ -53,7 +56,7 @@ extern "C" {
 
 // Configuración especifica para memoria estatica
 #ifdef USAR_MEMORIA_ESTATICA
-    #define ALUMNO_MAX_INSTANCIAS 1 //!< Cantidad maxima de instancias
+    #define ALUMNO_MAX_INSTANCIAS 2 //!< Cantidad maxima de instancias
 #endif
 
 /* === Public data type declarations =============================================================================== */

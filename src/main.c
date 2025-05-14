@@ -65,6 +65,16 @@ int main(void) {
         printf("Error al serializar\n");
     }
 
+    alumnoT Miyazaki = AlumnoCrear("Hidetaka", "Miyazaki", 12345678);
+
+    resultado = AlumnoSerializar(Miyazaki, buffer, sizeof(buffer));
+
+    if (resultado > 0) {
+        printf("Serializado: %s\n", buffer);
+    } else {
+        printf("Error al serializar\n");
+    }
+
     return 0;
 }
 
