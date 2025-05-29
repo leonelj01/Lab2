@@ -48,6 +48,13 @@ struct calculatorS {
 
 /* === Private function declarations =============================================================================== */
 
+/**
+ * @brief Verifica si existe una operación en la calculadora con el operador dado.
+ * 
+ * @param calculator    Referencia al objeto calculadora.
+ * @param operator      El operador de la operación a buscar.
+ * @return operationT   Puntero a la operación encontrada o NULL si no existe.
+ */
 static operationT CalculatorFindOperation(calculatorT calculator, char operator);
 
 /* === Private variable definitions ================================================================================ */
