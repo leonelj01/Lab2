@@ -24,7 +24,8 @@ SPDX-License-Identifier: MIT
 
 /* === Headers files inclusions ==================================================================================== */
 
-#include "alumno.h"
+#include "calculator.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 /* === Macros definitions ========================================================================================== */
@@ -41,39 +42,29 @@ SPDX-License-Identifier: MIT
 
 /* === Public function implementation ============================================================================== */
 
+int OperationMultiply(int operand1, int operand2) {
+    return operand1 * operand2;
+}
+
 int main(void) {
-    char buffer[100];
-    int resultado;
 
-    alumnoT Leonel = AlumnoCrear("Leonel", "Juarez", 12345678);
+    static const char expression[]  = "24+16";
+    static const char expression2[] = "12*8";
+    static const char expression3[] = "20-5";
+    
+    int result;
+    
+    calculatorT calculator = CalculatorCreate();
+    CalculatorAddOperation(calculator, '+', OperationAdd);
+    CalculatorAddOperation(calculator, '-', OperationSubtract);
+    CalculatorAddOperation(calculator, '*', OperationMultiply);
 
-    resultado = AlumnoSerializar(Leonel, buffer, sizeof(buffer));
-
-    if (resultado > 0) {
-        printf("Serializado: %s\n", buffer);
-    } else {
-        printf("Error al serializar\n");
-    }
-
-    alumnoT Juan = AlumnoCrear("Juan", "Gonzalez", 87654321);
-
-    resultado = AlumnoSerializar(Juan, buffer, sizeof(buffer));
-
-    if (resultado > 0) {
-        printf("Serializado: %s\n", buffer);
-    } else {
-        printf("Error al serializar\n");
-    }
-
-    alumnoT Miyazaki = AlumnoCrear("Hidetaka", "Miyazaki", 12345678);
-
-    resultado = AlumnoSerializar(Miyazaki, buffer, sizeof(buffer));
-
-    if (resultado > 0) {
-        printf("Serializado: %s\n", buffer);
-    } else {
-        printf("Error al serializar\n");
-    }
+    result = CalculatorCalculate(calculator, expression);
+    printf("Resultado de la expresion '%s': %d\n", expression, result);
+    result = CalculatorCalculate(calculator, expression2);
+    printf("Resultado de la expresion '%s': %d\n", expression2, result);
+    result = CalculatorCalculate(calculator, expression3);
+    printf("Resultado de la expresion '%s': %d\n", expression3, result);
 
     return 0;
 }
