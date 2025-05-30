@@ -27,6 +27,7 @@ SPDX-License-Identifier: MIT
 #include "calculator.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 /* === Macros definitions ========================================================================================== */
 
@@ -50,12 +51,12 @@ struct calculatorS {
 
 /**
  * @brief Verifica si existe una operación en la calculadora con el operador dado.
- * 
+ *
  * @param calculator    Referencia al objeto calculadora.
  * @param operator      El operador de la operación a buscar.
  * @return operationT   Puntero a la operación encontrada o NULL si no existe.
  */
-static operationT CalculatorFindOperation(calculatorT calculator, char operator);
+static operationT FindOperation(calculatorT calculator, char operator);
 
 /* === Private variable definitions ================================================================================ */
 
@@ -63,7 +64,7 @@ static operationT CalculatorFindOperation(calculatorT calculator, char operator)
 
 /* === Private function definitions ================================================================================ */
 
-static operationT CalculatorFindOperation(calculatorT calculator, char operator){
+static operationT FindOperation(calculatorT calculator, char operator) {
     operationT current = calculator->operation;
     while (current != NULL) {
         if (current->operator == operator) {
@@ -76,7 +77,7 @@ static operationT CalculatorFindOperation(calculatorT calculator, char operator)
 
 /* === Public function implementation ============================================================================== */
 
-calculatorT CalculatorCreate(void){
+calculatorT CalculatorCreate(void) {
     calculatorT self = malloc(sizeof(struct calculatorS));
     if (self != NULL) {
         self->operation = NULL; // Inicializa la lista de operaciones como vacía
@@ -84,40 +85,40 @@ calculatorT CalculatorCreate(void){
     return self;
 }
 
-bool CalculatorAddOperation(calculatorT calculator, char operator, operationFunc func){
-    if(!calculator || !func || CalculatorFindOperation(calculator, operator)){
+bool CalculatorAddOperation(calculatorT calculator, char operator, operationFunc func) {
+    if (!calculator || !func || FindOperation(calculator, operator)) {
         return false; // Verifica si el puntero a la calculadora o la función es nulo
     }
     operationT newOperation = malloc(sizeof(struct operationS));
-    if(newOperation != NULL){
+    if (newOperation != NULL) {
         newOperation->operator = operator;
         newOperation->func = func;
         newOperation->next = calculator->operation; // Inserta al inicio de la lista
-        calculator->operation = newOperation; // Actualiza la cabeza de la lista
+        calculator->operation = newOperation;       // Actualiza la cabeza de la lista
         return true;
     }
     return false; // No se pudo asignar memoria para la nueva operación
 }
 
-int CalculatorCalculate(calculatorT calculator, const char * expression){
+int CalculatorCalculate(calculatorT calculator, const char * expression) {
     int a = 0, b = 0;
     char operator = 0;
     int result = 0;
-    
-    if(!calculator || !expression) {
+
+    if (!calculator || !expression) {
         return 0; // Verifica si el puntero a la calculadora o la expresión es nulo
     }
 
-    for(size_t i = 0; i < strlen(expression); i++) {
+    for (size_t i = 0; i < strlen(expression); i++) {
         if (expression[i] < '0' || expression[i] > '9') {
             operator = expression[i];
-            a = atoi(expression); // Convierte el número anterior a entero
+            a = atoi(expression);         // Convierte el número anterior a entero
             b = atoi(expression + i + 1); // Convierte el número siguiente a entero
-            break; // Sale del bucle después de encontrar el operador
+            break;                        // Sale del bucle después de encontrar el operador
         }
     }
 
-    operationT op = CalculatorFindOperation(calculator, operator);
+    operationT op = FindOperation(calculator, operator);
 
     if (op != NULL) {
         result = op->func(a, b); // Llama a la función de la operación encontrada
@@ -134,5 +135,19 @@ int OperationAdd(int operand1, int operand2) {
 
 int OperationSubtract(int operand1, int operand2) {
     return operand1 - operand2;
+}
+
+int OperationMultiply(int operand1, int operand2) {
+    return operand1 * operand2;
+}
+
+int OperationDiv(int operand1, int operand2) {
+    if (operand2 != 0) {
+        return operand1 / operand2; // Evita división por cero
+    } else {
+        printf("Error: Division por cero\n");
+    }
+
+    return 404; // Retorna 0 si el divisor es cero
 }
 /* === End of documentation ======================================================================================== */

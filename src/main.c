@@ -42,22 +42,20 @@ SPDX-License-Identifier: MIT
 
 /* === Public function implementation ============================================================================== */
 
-int OperationMultiply(int operand1, int operand2) {
-    return operand1 * operand2;
-}
-
 int main(void) {
 
-    static const char expression[]  = "24+16";
+    static const char expression[] = "24+16";
     static const char expression2[] = "12*8";
     static const char expression3[] = "20-5";
-    
+    static const char expression4[] = "10/2";
+
     int result;
-    
+
     calculatorT calculator = CalculatorCreate();
     CalculatorAddOperation(calculator, '+', OperationAdd);
     CalculatorAddOperation(calculator, '-', OperationSubtract);
     CalculatorAddOperation(calculator, '*', OperationMultiply);
+    CalculatorAddOperation(calculator, '/', OperationDiv);
 
     result = CalculatorCalculate(calculator, expression);
     printf("Resultado de la expresion '%s': %d\n", expression, result);
@@ -65,6 +63,8 @@ int main(void) {
     printf("Resultado de la expresion '%s': %d\n", expression2, result);
     result = CalculatorCalculate(calculator, expression3);
     printf("Resultado de la expresion '%s': %d\n", expression3, result);
+    result = CalculatorCalculate(calculator, expression4);
+    printf("Resultado de la expresion '%s': %d\n", expression4, result);
 
     return 0;
 }
